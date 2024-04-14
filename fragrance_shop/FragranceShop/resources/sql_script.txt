@@ -1,0 +1,270 @@
+CREATE DATABASE IF NOT EXISTS fragrance_shop;
+USE fragrance_shop;
+
+CREATE TABLE IF NOT EXISTS member(
+id INTEGER PRIMARY KEY AUTO_INCREMENT,
+username VARCHAR(255),
+email VARCHAR(255),
+password VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS brand(
+id INTEGER PRIMARY KEY AUTO_INCREMENT,
+brand_name VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS gender(
+id INTEGER PRIMARY KEY AUTO_INCREMENT,
+gender_name VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS category(
+id INTEGER PRIMARY KEY AUTO_INCREMENT,
+category_name VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS size(
+id INTEGER PRIMARY KEY AUTO_INCREMENT,
+size_name VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS price_size(
+id INTEGER PRIMARY KEY AUTO_INCREMENT,
+size_id INTEGER,
+price_value VARCHAR(255),
+FOREIGN KEY (size_id) REFERENCES size(id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE IF NOT EXISTS fragrance(
+id INTEGER PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(255),
+brand_id INTEGER,
+gender_id INTEGER,
+description TEXT,
+img_src VARCHAR(255),
+FOREIGN KEY (brand_id) REFERENCES brand(id) ON DELETE RESTRICT,
+FOREIGN KEY (gender_id) REFERENCES gender(id) ON DELETE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS fragrance_price_size(
+fragrance_id INTEGER,
+price_size_id INTEGER,
+FOREIGN KEY (fragrance_id) REFERENCES fragrance(id) ON DELETE CASCADE,
+FOREIGN KEY (price_size_id) REFERENCES size(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS fragrance_category(
+fragrance_id INTEGER,
+category_id INTEGER,
+FOREIGN KEY (fragrance_id) REFERENCES fragrance(id) ON DELETE CASCADE,
+FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE
+);
+
+DELIMITER //
+
+CREATE PROCEDURE IF NOT EXISTS InsertMember()
+BEGIN
+    DECLARE exit handler for SQLEXCEPTION, SQLWARNING
+    BEGIN
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+    INSERT INTO member (username, email, password) VALUES ('john', 'john1@mail.com', '$2y$10$d7kXJ8gYsKKCJQN8DZddlODIG2DlIb0i4VykN45kupMmUNePjK9X.');
+    INSERT INTO member (username, email, password) VALUES ('doe', 'nobody@mail.com', '$2y$10$Thv6s6Cez8Wh0khjUAEy5.DajEjgy3XHn1n.czs2ArSz5DsSFhPja');
+
+    COMMIT;
+END //
+
+CREATE PROCEDURE IF NOT EXISTS InsertBrand()
+BEGIN
+    DECLARE exit handler for SQLEXCEPTION, SQLWARNING
+    BEGIN
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+    INSERT INTO brand (brand_name) VALUES ('Xerjoff');
+    INSERT INTO brand (brand_name) VALUES ('Casamorati');
+    INSERT INTO brand (brand_name) VALUES ('Mancera');
+    INSERT INTO brand (brand_name) VALUES ('Montale');
+
+    COMMIT;
+END //
+
+CREATE PROCEDURE  IF NOT EXISTS InsertSize()
+BEGIN
+    DECLARE exit handler for SQLEXCEPTION, SQLWARNING
+    BEGIN
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+    INSERT INTO size (size_name) VALUES ('30 ml');
+    INSERT INTO size (size_name) VALUES ('50 ml');
+    INSERT INTO size (size_name) VALUES ('60 ml');
+    INSERT INTO size (size_name) VALUES ('100 ml');
+    INSERT INTO size (size_name) VALUES ('120 ml');
+
+    COMMIT;
+END //
+
+
+CREATE PROCEDURE IF NOT EXISTS InsertPriceSize()
+BEGIN
+	DECLARE exit handler for SQLEXCEPTION, SQLWARNING
+	BEGIN
+		ROLLBACK;
+	END;
+
+	START TRANSACTION;
+
+		INSERT INTO price_size (size_id, price_value) SELECT
+		(SELECT id FROM size WHERE size_name = '30 ml'),
+		'£95';
+		INSERT INTO price_size (size_id, price_value) SELECT
+		(SELECT id FROM size WHERE size_name = '100 ml'),
+		'£230';
+		INSERT INTO price_size (size_id, price_value) SELECT
+		(SELECT id FROM size WHERE size_name = '50 ml'),
+		'£140';
+		INSERT INTO price_size (size_id, price_value) SELECT
+		(SELECT id FROM size WHERE size_name = '100 ml'),
+		'£210';
+		INSERT INTO price_size (size_id, price_value) SELECT
+		(SELECT id FROM size WHERE size_name = '50 ml'),
+		'£290';
+	COMMIT;
+END //
+
+
+CREATE PROCEDURE IF NOT EXISTS InsertCategory()
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
+    BEGIN
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+    INSERT INTO category (category_name) VALUES ('floral');
+    INSERT INTO category (category_name) VALUES ('oud');
+    INSERT INTO category (category_name) VALUES ('vanilla');
+    INSERT INTO category (category_name) VALUES ('fruity');
+    INSERT INTO category (category_name) VALUES ('aromatic');
+    INSERT INTO category (category_name) VALUES ('citrus');
+    INSERT INTO category (category_name) VALUES ('aquatic');
+    INSERT INTO category (category_name) VALUES ('gourmand');
+    INSERT INTO category (category_name) VALUES ('powdery');
+
+    COMMIT;
+END //
+
+CREATE PROCEDURE IF NOT EXISTS InsertGender()
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
+    BEGIN
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+    INSERT INTO gender (gender_name) VALUES ('men');
+    INSERT INTO gender (gender_name) VALUES ('women');
+    INSERT INTO gender (gender_name) VALUES ('unisex');
+
+    COMMIT;
+END //
+
+CREATE PROCEDURE IF NOT EXISTS InsertFragrance()
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
+    BEGIN
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+    INSERT INTO fragrance (name, brand_id, gender_id, description, img_src) VALUES
+    ('Erba Pura', 1, 3, 'Erba Pura is an enticing elixir that captivates and charms. Fresh, fruity and thoroughly contemporary in spirit, it blends top notes of Sicilian orange and lemon with a Mediterranean fruit basket at the heart. White musk, amber and Madagascar vanilla beans sit at the base and reveal themselves slowly as time goes by. Erba Pura is presented with a unique silk neck scarf designed by Xerjoff and produced by famous silk manufacturers in Lake Como. 
+
+OLFACTORY NOTES: Orange And Lemon From Sicily, Calabrian Bergamot Fruity Basket From The Mediterranean Amber And Vanilla Beans From Madagascar, White Musk', 'resources/frag_images/erba-puraeau-de-parfum-100ml.jpg');
+
+    INSERT INTO fragrance_category (fragrance_id, category_id) SELECT
+    (SELECT id FROM fragrance WHERE name='Erba Pura'), (SELECT id FROM category WHERE category_name='fruity');
+
+    INSERT INTO fragrance_price_size (fragrance_id, price_size_id) SELECT
+    (SELECT id FROM fragrance WHERE name='Erba Pura'), (SELECT id FROM price_size WHERE price_value='£140');
+    INSERT INTO fragrance_price_size (fragrance_id, price_size_id) SELECT
+    (SELECT id FROM fragrance WHERE name='Erba Pura'), (SELECT id FROM price_size WHERE price_value='£210');
+
+    -- Inserting the second fragrance
+    INSERT INTO fragrance (name, brand_id, gender_id, description, img_src) VALUES
+    ('Dama Bianca', 2, 2, 'Beautifully light, feminine and sensual, this classic white scent opens with zesty lime and Florentine iris, inviting the nose in closer to a heart of Egyptian jasmine, violet and lilac. Exotic base notes of Indonesian sandalwood and vanilla beans from Zanzibar offer an earthy embrace in Dama Bianca Casamorati. An inspiring vintage scent that celebrates the ancient art of Italian perfumery. 
+
+OLFACTORY NOTES: Lime And Chinese Kumquats Egyptian Jasmine, Lily Of The Valley Cedarwood, White Musk', 'resources/frag_images/dama-biancaeau-de-parfum-100ml.jpg');
+
+    INSERT INTO fragrance_category (fragrance_id, category_id) SELECT
+    (SELECT id FROM fragrance WHERE name='Dama Bianca'), (SELECT id FROM category WHERE category_name='floral');
+    INSERT INTO fragrance_category (fragrance_id, category_id) SELECT
+    (SELECT id FROM fragrance WHERE name='Dama Bianca'), (SELECT id FROM category WHERE category_name='citrus');
+
+    INSERT INTO fragrance_price_size (fragrance_id, price_size_id) SELECT
+    (SELECT id FROM fragrance WHERE name='Dama Bianca'), (SELECT id FROM price_size WHERE price_value='£95');
+    INSERT INTO fragrance_price_size (fragrance_id, price_size_id) SELECT
+    (SELECT id FROM fragrance WHERE name='Dama Bianca'), (SELECT id FROM price_size WHERE price_value='£230');
+
+    INSERT INTO fragrance (name, brand_id, gender_id, description, img_src) VALUES
+    ('Gran Ballo', 2, 2, 'A joyful expression of the innocence of young love, Gran Ballo Casamorati takes the senses on a spin in the grand palace. Inspired    by the grandeur of 18th century aristocratic parties, where young girls sought out their own Prince Charming, this perfume is a floral and fruity ode to tradition. Wild berries and mandarin lead to a heart of honeysuckle and gardenia while the base is warmed with amber and caramel. An inspiring vintage scent that celebrates the ancient art of Italian perfumery. 
+
+OLFACTORY NOTES: Wild Berries, Mandarin Jasmine Sambac, Gardenia Vanilla, Sandalwood, Caramel, Amber', 'resources/frag_images/gran-balloeau-de-parfum-100.jpg');
+
+    INSERT INTO fragrance_category (fragrance_id, category_id) SELECT
+    (SELECT id FROM fragrance WHERE name='Gran Ballo'), (SELECT id FROM category WHERE category_name='floral');
+    INSERT INTO fragrance_category (fragrance_id, category_id) SELECT
+    (SELECT id FROM fragrance WHERE name='Gran Ballo'), (SELECT id FROM category WHERE category_name='vanilla');
+    INSERT INTO fragrance_category (fragrance_id, category_id) SELECT
+    (SELECT id FROM fragrance WHERE name='Gran Ballo'), (SELECT id FROM category WHERE category_name='fruity');
+
+    INSERT INTO fragrance_price_size (fragrance_id, price_size_id) SELECT
+    (SELECT id FROM fragrance WHERE name='Gran Ballo'), (SELECT id FROM price_size WHERE price_value='£95');
+    INSERT INTO fragrance_price_size (fragrance_id, price_size_id) SELECT
+    (SELECT id FROM fragrance WHERE name='Gran Ballo'), (SELECT id FROM price_size WHERE price_value='£230');
+
+    INSERT INTO fragrance (name, brand_id, gender_id, description, img_src) VALUES 
+    ('Zafar', 1, 3, 'Zafar is the most intense evocation of Arabia; a sumptuous expression of traditional Arab perfumery and created from pure oud distillation. Blended from the most precious ingredients sourced over three years, this classically oriental scent hits high notes of rose and black pepper, gently leading the nose into Laotian oud, Moroccan neroli and white flowers. Intoxicating and irresistible, Zafar Xerjoff has a warming and exotic base of cedar, incense, Haitan vetiver and musk. 
+
+OLFACTORY NOTES: Rose, Black Pepper White Flowers, Oud From Laos, Neroli From Morocco Musk, Incense, Haitian Vetiver, Cedar, Oud Burmi', 'resources/frag_images/zafarparfum-50ml.jpg');
+
+    INSERT INTO fragrance_category (fragrance_id, category_id) SELECT
+    (SELECT id FROM fragrance WHERE name='Zafar'), (SELECT id FROM category WHERE category_name='floral');
+    INSERT INTO fragrance_category (fragrance_id, category_id) SELECT
+    (SELECT id FROM fragrance WHERE name='Zafar'), (SELECT id FROM category WHERE category_name='oud');
+
+    INSERT INTO fragrance_pice_size (fragrance_id, price_size_id) SELECT
+    (SELECT id FROM fragrance WHERE name='Zafar'), 
+    (SELECT id FROM price_price_size WHERE price_value='£290');
+
+    COMMIT;
+END //
+
+DELIMITER ;
+
+CALL InsertMember();
+CALL InsertBrand();
+CALL InsertCategory();
+CALL InsertSize();
+CALL InsertPriceSize();
+CALL InsertGender();
+CALL InsertFragrance();
+
+
+
+
+
+
+

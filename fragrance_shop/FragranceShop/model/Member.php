@@ -14,47 +14,47 @@
  */
 class Member {
     
-    private $id;
-    private $username;
-    private $email;
-    private $password;
+    private int $id;
+    private string $username;
+    private string $email;
+    private string $password;
     
-    public function __construct($id, $username, $email, $password) {
+    public function __construct(int $id, string $username, string $email, string $password) {
         $this->id = $id;
         $this->username = $username;
         $this->email = $email;
         $this->password = $password;
     }
     
-    public function getId(): int {
+    public function get_id(): int {
         return $this->id;
     }
 
-    public function getUsername(): string {
+    public function get_username(): string {
         return $this->username;
     }
 
-    public function getEmail(): string {
+    public function get_email(): string {
         return $this->email;
     }
 
-    public function getPassword(): string {
+    public function get_password(): string {
         return $this->password;
     }
 
-    public function setId($id): void {
+    public function set_id(int $id): void {
         $this->id = $id;
     }
 
-    public function setUsername($username): void {
+    public function set_username(string $username): void {
         $this->username = $username;
     }
 
-    public function setEmail($email): void {
+    public function set_email(string $email): void {
         $this->email = $email;
     }
 
-    public function setPassword($password): void {
+    public function set_password(string $password): void {
         $this->password = $password;
     }
 
