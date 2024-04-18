@@ -1,19 +1,13 @@
 <?php
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPClass.php to edit this template
- */
-
 /**
  * Description of fragrance
  *
  * @var int £id The auto incremented identifier
  * @var string $name The name of the fragrance
  * @var Brand brand A Brand object representing the manufacturer of the fragrance
- * @var string $gender A constant value defined in the Gender class. 
- *                     Represents the intended target audience of the fragrance.
- * @var array $categories An array of Category constants. The Category class is a
+ * @var Gender $gender A Gender enum. Represents the intended target audience of the fragrance.
+ * @var array $categories An array of Category enums. The Category class is a
  *                        collection of constant values that represent the olfactory 
  *                        groups of that fragrances can belong to.
  * @var array $price_sizes An array of PriceSize objects that represent the 
@@ -32,7 +26,7 @@ class Fragrance {
     private int $id;
     private string $name;
     private Brand $brand;
-    private string $gender;
+    private Gender $gender;
     private string $description;
     private string $img_src;
     private array $categories;
@@ -43,13 +37,13 @@ class Fragrance {
      * @param int $id
      * @param string $name
      * @param Brand $brand The brand of the fragrance
-     * @param string $gender A constant of the Gender class
+     * @param Gender $gender An enum 
      * @param string $description
      * @param string $img_src The path to the fragrance image
-     * @param array $categories An array of string  constants from the Category class
-     * @param array $price_sizes An array of string constants from the Size class
+     * @param array $categories An array of Category enums
+     * @param array $price_sizes An array of PriceSize objects
      */
-    public function __construct(int $id, string $name, Brand $brand, string $gender,
+    public function __construct(int $id, string $name, Brand $brand, Gender $gender,
             string $description, string $img_src, array $categories,
             array $price_sizes) {
         $this->id = $id;
@@ -74,7 +68,7 @@ class Fragrance {
         return $this->brand;
     }
 
-    public function get_gender(): string {
+    public function get_gender(): Gender {
         return $this->gender;
     }
 
@@ -106,7 +100,7 @@ class Fragrance {
         $this->brand = $brand;
     }
 
-    public function set_gender(string $gender): void {
+    public function set_gender(Gender $gender): void {
         $this->gender = $gender;
     }
 

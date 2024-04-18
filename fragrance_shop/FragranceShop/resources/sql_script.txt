@@ -15,17 +15,20 @@ brand_name VARCHAR(255)
 
 CREATE TABLE IF NOT EXISTS gender(
 id INTEGER PRIMARY KEY AUTO_INCREMENT,
-gender_name VARCHAR(255)
+gender_name VARCHAR(255),
+gender_value VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS category(
 id INTEGER PRIMARY KEY AUTO_INCREMENT,
-category_name VARCHAR(255)
+category_name VARCHAR(255),
+category_value VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS size(
 id INTEGER PRIMARY KEY AUTO_INCREMENT,
-size_name VARCHAR(255)
+size_name VARCHAR(255),
+size_value VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS price_size(
@@ -104,11 +107,11 @@ BEGIN
 
     START TRANSACTION;
 
-    INSERT INTO size (size_name) VALUES ('30 ml');
-    INSERT INTO size (size_name) VALUES ('50 ml');
-    INSERT INTO size (size_name) VALUES ('60 ml');
-    INSERT INTO size (size_name) VALUES ('100 ml');
-    INSERT INTO size (size_name) VALUES ('120 ml');
+    INSERT INTO size (size_name, size_value) VALUES ('_30', '30 ml');
+    INSERT INTO size (size_name, size_value) VALUES ('_50', '50 ml');
+    INSERT INTO size (size_name, size_value) VALUES ('_60', '60 ml');
+    INSERT INTO size (size_name, size_value) VALUES ('_100', '100 ml');
+    INSERT INTO size (size_name, size_value) VALUES ('_120', '120 ml');
 
     COMMIT;
 END //
@@ -124,19 +127,19 @@ BEGIN
 	START TRANSACTION;
 
 		INSERT INTO price_size (size_id, price_value) SELECT
-		(SELECT id FROM size WHERE size_name = '30 ml'),
+		(SELECT id FROM size WHERE size_value = '30 ml'),
 		'£95';
 		INSERT INTO price_size (size_id, price_value) SELECT
-		(SELECT id FROM size WHERE size_name = '100 ml'),
+		(SELECT id FROM size WHERE size_value = '100 ml'),
 		'£230';
 		INSERT INTO price_size (size_id, price_value) SELECT
-		(SELECT id FROM size WHERE size_name = '50 ml'),
+		(SELECT id FROM size WHERE size_value = '50 ml'),
 		'£140';
 		INSERT INTO price_size (size_id, price_value) SELECT
-		(SELECT id FROM size WHERE size_name = '100 ml'),
+		(SELECT id FROM size WHERE size_value = '100 ml'),
 		'£210';
 		INSERT INTO price_size (size_id, price_value) SELECT
-		(SELECT id FROM size WHERE size_name = '50 ml'),
+		(SELECT id FROM size WHERE size_value = '50 ml'),
 		'£290';
 	COMMIT;
 END //
@@ -151,15 +154,15 @@ BEGIN
 
     START TRANSACTION;
 
-    INSERT INTO category (category_name) VALUES ('floral');
-    INSERT INTO category (category_name) VALUES ('oud');
-    INSERT INTO category (category_name) VALUES ('vanilla');
-    INSERT INTO category (category_name) VALUES ('fruity');
-    INSERT INTO category (category_name) VALUES ('aromatic');
-    INSERT INTO category (category_name) VALUES ('citrus');
-    INSERT INTO category (category_name) VALUES ('aquatic');
-    INSERT INTO category (category_name) VALUES ('gourmand');
-    INSERT INTO category (category_name) VALUES ('powdery');
+    INSERT INTO category (category_name, category_value) VALUES ('FLORAL', 'floral');
+    INSERT INTO category (category_name, category_value) VALUES ('OUD', 'oud');
+    INSERT INTO category (category_name, category_value) VALUES ('VANILLA', 'vanilla');
+    INSERT INTO category (category_name, category_value) VALUES ('FRUITY', 'fruity');
+    INSERT INTO category (category_name, category_value) VALUES ('AROMATIC', 'aromatic');
+    INSERT INTO category (category_name, category_value) VALUES ('CITRUS', 'citrus');
+    INSERT INTO category (category_name, category_value) VALUES ('AQUATIC', 'aquatic');
+    INSERT INTO category (category_name, category_value) VALUES ('GOURMAND', 'gourmand');
+    INSERT INTO category (category_name, category_value) VALUES ('POWDERY', 'powdery');
 
     COMMIT;
 END //
@@ -173,9 +176,9 @@ BEGIN
 
     START TRANSACTION;
 
-    INSERT INTO gender (gender_name) VALUES ('men');
-    INSERT INTO gender (gender_name) VALUES ('women');
-    INSERT INTO gender (gender_name) VALUES ('unisex');
+    INSERT INTO gender (gender_name, gender_value) VALUES ('MEN', 'men');
+    INSERT INTO gender (gender_name, gender_value) VALUES ('WOMEN', 'women');
+    INSERT INTO gender (gender_name, gender_value) VALUES ('UNISEX', 'unisex');
 
     COMMIT;
 END //

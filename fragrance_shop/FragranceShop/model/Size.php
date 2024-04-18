@@ -10,30 +10,11 @@
  *
  * @author igbin
  */
-class Size{
-   private const _30="30_ml";
-   private const _50="50 ml";
-   private const _60="60 ml";
-   private const _100="100 ml";
-   private const _120="120 ml";
+enum Size: string{
+   case _30="30 ml";
+   case _50="50 ml";
+   case _60="60 ml";
+   case _100="100 ml";
+   case _120="120 ml";
    
-   public static function getSize30(): string{
-       return self::_30;      
-   }
-   
-    public static function getSize50(): string{
-       return self::_50;      
-   }
-   
-    public static function getSize60(): string{
-       return self::_60;      
-   }
-   
-    public static function getSize100(): string{
-       return self::_100;      
-   }
-   
-    public static function getSize120(): string{
-       return self::_120;      
-   }
 }

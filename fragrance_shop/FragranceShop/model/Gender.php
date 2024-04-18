@@ -10,10 +10,10 @@
  *
  * @author igbin
  */
-class Gender{
+enum Gender: string{
     
-    private const MEN="men";
-    private const WOMEN="women";
-    private const UNISEX="unisex";
+    case MEN="men";
+    case WOMEN="women";
+    case UNISEX="unisex";
     
 }

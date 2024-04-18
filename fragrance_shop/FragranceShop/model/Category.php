@@ -10,51 +10,25 @@
  *
  * @author igbin
  */
-class Category{
+enum Category: string{
     
-   private const FLORAL="floral";
-   private const OUD="oud";
-   private const VANILLA="vanilla";
-   private const FRUITY="fruity";
-   private const AROMATIC="aromatic";
-   private const CITRUS="citrus";
-   private const AQUATIC="aquatic";
-   private const GOURMAND="gourmand";
-   private const POWDERY="powdery";
+   case FLORAL="floral";
+   case OUD="oud";
+   case VANILLA="vanilla";
+   case FRUITY="fruity";
+   case AROMATIC="aromatic";
+   case CITRUS="citrus";
+   case AQUATIC="aquatic";
+   case GOURMAND="gourmand";
+   case POWDERY="powdery";
+  
    
-   public static function getFloral(): string{
-       return self::FLORAL;
-   }
-   
-     public static function getOud(): string{
-       return self::OUD;
-   }
-   
-     public static function getVanilla(): string{
-       return self::VANILLA;
-   }
-   
-     public static function getFruity(): string{
-       return self::FRUITY;
-   }
-   
-     public static function getAromatic(): string{
-       return self::AROMATIC;
-   }
-   
-     public static function getCitrus(): string{
-       return self::CITRUS;
-   }
-   
-     public static function getAquatic(): string{
-       return self::AQUATIC;
-   }
-   
-     public static function getGourmand(): string{
-       return self::GOURMAND;
-   }
-   
-     public static function getPowdery(): string{
-       return self::POWDERY;
+   public static function string_values($cat_array): array{
+       $string_values = [];
+       foreach($cat_array as $cat){
+           $string_values[] = $cat->value;
+       }
+       
+       return $string_values;
    }
 }
