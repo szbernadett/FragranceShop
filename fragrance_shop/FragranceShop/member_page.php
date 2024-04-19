@@ -1,7 +1,10 @@
 <?php
 require_once "model\dao.php";
 session_start();
-
+if(!isset($_SESSION["member"])){
+    header("Location: login.php");
+    return;
+}
 $fragrances = $dao->get_fragrances();
 ?>
 <html>
