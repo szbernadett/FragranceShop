@@ -1,14 +1,11 @@
 <?php
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPClass.php to edit this template
- */
+
 
 /**
  * Description of Size
  *
- * @author igbin
+ * 
  */
 enum Size: string{
    case _30="30 ml";

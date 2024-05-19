@@ -3,7 +3,7 @@
 
 /**
  *
- * @author igbin
+ * 
  */
 interface DAOInterface {
     public function get_fragrance_by_id(int $frag_id);

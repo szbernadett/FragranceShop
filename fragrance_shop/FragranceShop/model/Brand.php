@@ -15,10 +15,12 @@ class Brand {
     
     private int $id;
     private string $brand_name;
+    private array $price_sizes;
     
-    public function __construct(int $id, string $brand_name) {
+    public function __construct(int $id, string $brand_name, array $price_sizes) {
         $this->id = $id;
         $this->brand_name = $brand_name;
+        $this->price_sizes = $price_sizes;
     }
 
     public function get_id(): int {
@@ -36,5 +38,14 @@ class Brand {
     public function set_brand_name(string $brand_name): void {
         $this->brand_name = $brand_name;
     }
+
+    public function get_price_sizes(): array {
+        return $this->price_sizes;
+    }
+
+    public function set_price_sizes(array $price_sizes): void {
+        $this->price_sizes = $price_sizes;
+    }
+
 
 }

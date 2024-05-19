@@ -1,14 +1,11 @@
 <?php
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPClass.php to edit this template
- */
+
 
 /**
  * Description of Category
  *
- * @author igbin
+ * 
  */
 enum Category: string{
     
@@ -28,7 +25,7 @@ enum Category: string{
        foreach($cat_array as $cat){
            $string_values[] = $cat->value;
        }
-       
+
        return $string_values;
    }
 }

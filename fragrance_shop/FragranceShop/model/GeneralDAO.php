@@ -176,6 +176,7 @@ class GeneralDAO implements DAOInterface {
         try {
             $stmt = $this->db->prepare("DELETE FROM fragrance WHERE id= :id");
             $stmt->execute(array(":id" => $frag_id));
+            unset($this->fragrances[$frag_id]);
         } catch (PDOException $e) {
             throw $e;
         }
@@ -187,16 +188,15 @@ class GeneralDAO implements DAOInterface {
 
     public function save_fragrance(Fragrance $fragrance): void {
         try {
-            $stmt = $this->db->prepare("INSERT INTO fragrance ('name', 'brand_id', "
-                    . "'gender_id', 'description', 'img_src') VALUES"
-                    . "(':name', ':brand_id', ':gender_id', ':description', 'img_src');");
-            $stmt->execute(array(":name" => $fragrance . get_name(),
-                ":brand_id" => $fragrance->get_brand() . get_id(),
+            $stmt = $this->db->prepare("INSERT INTO fragrance (name, brand_id, "
+                    . "gender_id, description, img_src) VALUES"
+                    . "(:name, :brand_id, :gender_id, :description, :img_src);");
+            $stmt->execute(array(":name" => $fragrance->get_name(),
+                ":brand_id" => $fragrance->get_brand()->get_id(),
                 ":gender_id" => $this->get_gender_id($fragrance->get_gender()),
                 ":description" => $fragrance->get_description(),
                 ":img_src" => $fragrance->get_img_src()));
             $this->save_frag_categories($fragrance);
-            $this->save_frag_price_sizes($fragrance);
         } catch (PDOException $e) {
             throw $e;
         }
@@ -205,25 +205,16 @@ class GeneralDAO implements DAOInterface {
     private function save_frag_categories($fragrance): void {
         try {
             $frag_cat_stmt = $this->db->prepare("INSERT INTO fragrance_category VALUES"
-                    . "(':fragrance_id', ':category_id')");
+                    . "(:fragrance_id, :category_id)");
+            $cat_id = null;
             foreach ($fragrance->get_categories() as $cat) {
-                $flipped_cats = arrays_flip(this->categories);
+                foreach ($this->categories_by_id as $id => $cat_inner) {
+                    if ($cat_inner === $cat) {
+                        $cat_id = $id;
+                    }
+                }
                 $frag_cat_stmt->execute(array(":fragrance_id" => $fragrance->get_id(),
-                    ":category_id" => $flipped_cats[$cat]));
-            }
-        } catch (PDOException $e) {
-            throw $e;
-        }
-    }
-
-    private function save_frag_price_sizes($fragrance): void {
-        try {
-            $frag_ps_stmt = $this->db->prepare("INSERT INTO fragrance_price_size VALUES"
-                    . "(':fragrance_id', ':price_size_id')");
-            foreach ($fragrance->get_price_sizes() as $ps) {
-                $flipped_ps = arrays_flip(this->price_sizes);
-                $frag_ps_stmt->execute(array(":fragrance_id" => $fragrance->get_id(),
-                    ":price_size_id" => $flipped_ps[$ps]));
+                    ":category_id" => $cat_id));
             }
         } catch (PDOException $e) {
             throw $e;
@@ -235,9 +226,12 @@ class GeneralDAO implements DAOInterface {
 
         try {
             $stmt = $this->db->query("SELECT * FROM brand");
-            $rows = $stmt->fetchAll(PDO::FETCH_NUM);
+            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
             foreach ($rows as $row) {
-                $brand = new Brand(...$row);
+                $brand = new Brand($row["id"],
+                        $row["brand_name"],
+                        $this->get_brand_price_sizes($row["id"])
+                );
                 $brands[$brand->get_id()] = $brand;
             }
         } catch (PDOException $e) {
@@ -270,17 +264,17 @@ class GeneralDAO implements DAOInterface {
         try {
             $stmt = $this->db->query("SELECT * FROM fragrance;");
             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
             if ($rows) {
                 foreach ($rows as $row) {
                     $fragrance = new Fragrance(
-                            $row["id"],
                             $row["name"],
                             $this->get_brands_by_id()[$row["brand_id"]],
                             $this->get_genders_by_id()[$row["gender_id"]],
                             $row["description"],
                             $row["img_src"],
                             $this->get_frag_categories($row["id"]),
-                            $this->get_frag_price_sizes($row["id"])
+                            $row["id"]
                     );
                     $fragrances[$fragrance->get_id()] = $fragrance;
                 }
@@ -339,7 +333,7 @@ class GeneralDAO implements DAOInterface {
         try {
             $stmt = $this->db->query("SELECT * FROM size");
             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
+
             if ($rows) {
                 foreach ($rows as $row) {
                     $sizes[$row["id"]] = Size::from($row["size_value"]);
@@ -372,17 +366,21 @@ class GeneralDAO implements DAOInterface {
 
     private function get_frag_categories(int $frag_id): array {
         $matches = [];
-
         try {
             $stmt = $this->db->prepare("SELECT category_id FROM fragrance_category WHERE fragrance_id = :id");
-            $stmt->execute(array(":id" => $frag_id));
-            $cat_ids = [];
-            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                $cat_ids[]=$row["category_id"];
-            }
-            if ($cat_ids) {
-                foreach($cat_ids as $cid){
-                    $matches[] =  $this->categories_by_id[$cid];
+            $stmt->execute(array("id" => $frag_id));
+            
+            $rows = $stmt->fetch(PDO::FETCH_ASSOC);
+            var_dump($rows);
+            if ($rows) {
+                $cat_ids = [];
+                foreach ($rows as $row) {
+                    $cat_ids[] = $row["category_id"];
+                }
+                if ($cat_ids) {
+                    foreach ($cat_ids as $cid) {
+                        $matches[] = $this->categories_by_id[$cid];
+                    }
                 }
             }
         } catch (PDOException $e) {
@@ -392,21 +390,21 @@ class GeneralDAO implements DAOInterface {
         }
     }
 
-    private function get_frag_price_sizes(int $frag_id): array {
+    private function get_brand_price_sizes(int $brand_id): array {
         $matches = [];
 
         try {
-            $stmt = $this->db->prepare("SELECT price_size_id FROM fragrance_price_size WHERE fragrance_id = :id");
-            $stmt->execute(array(":id" => $frag_id));
+            $stmt = $this->db->prepare("SELECT price_size_id FROM brand_price_size WHERE brand_id = :id");
+            $stmt->execute(array(":id" => $brand_id));
             $prs_ids = [];
-            while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                $prs_ids[]=$row["price_size_id"];
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $prs_ids[] = $row["price_size_id"];
             }
 
             if ($prs_ids) {
-               foreach($prs_ids as $prsid){
-                   $matches[]= $this->price_sizes[$prsid];
-               }
+                foreach ($prs_ids as $prsid) {
+                    $matches[] = $this->price_sizes[$prsid];
+                }
             }
         } catch (PDOException $e) {
             throw $e;
