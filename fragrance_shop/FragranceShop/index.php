@@ -1,36 +1,29 @@
 <?php
 require_once "model\pdo.php";
 require_once "model\dao.php";
-session_start();
-
-$fragrances = $dao->get_fragrances();
 ?>
+
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1"
     </head>
     <body>
-        <?php
-        include "header.php";
-        ?>
-        <h1>Title</h1>
-        <?php
-        foreach ($fragrances as $fragrance) {
-            $alt=htmlentities($fragrance->get_name());
-            echo "<table style='max-width: 50%'>";
-            echo"<tr>";
-            echo"<td style='text-align: right; width: 50%'><img src ='" . $fragrance->get_img_src() . "' height='200' alt=$alt></td>";
-            echo "<td style='text-align: left; width: 50%'>" . htmlentities($fragrance->get_name()) . "<br>"
-            . $fragrance->get_brand()->get_brand_name() . "<br>"
-            . $fragrance->get_gender()->value . "</td>";
-            echo"</tr>";
-            echo "<tr>";
-            echo"<td colspan='2'>" . htmlentities($fragrance->get_description()) . "</td>";
-            echo"</tr>";
-            echo"</table>";
-        }
-        ?>
+        <?php include "header.php"; ?>
+        <main style="margin: 20px 40px">
+            <h2>Home</h2>
+            <p><em> Please log in via the link above to add, edit and delete fragrances. </em></p>
+            <p style="line-height: 1.5"> 
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor 
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident, 
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+        </main>
         <?php
         include "footer.php";
         ?>

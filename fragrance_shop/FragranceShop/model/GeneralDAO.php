@@ -182,8 +182,34 @@ class GeneralDAO implements DAOInterface {
         }
     }
 
-    public function edit_fragrance(Fragrance $fragrance) {
+    public function update_fragrance(Fragrance $fragrance): void {
+        $stmt = $this->db->prepare("UPDATE fragrance SET name = :name, brand_id = :brand_id,"
+                . "gender_id = :gender_id, description = :description, img_src = :img_src
+                  WHERE id = :id");
+        $stmt->execute(array(":name" => $fragrance->get_name(), ":brand_id" => 
+                       $fragrance->get_brand()->get_id(), ":gender_id" => 
+                       array_search($fragrance->get_gender(), $this->genders_by_id),
+                       ":description" => $fragrance->get_description(), ":img_src"
+                       => $fragrance->get_img_src(), ":id" => $fragrance->get_id()));
         
+        $this->update_fragrance_category($fragrance);
+        
+    }
+    
+    public function update_fragrance_category(Fragrance $fragrance): void {
+        $stmt = $this->db->prepare("DELETE FROM fragrance_category WHERE "
+                                   . "fragrance_id = :frag_id");
+        $stmt->execute(array(":frag_id" => $fragrance->get_id()));
+        
+         $stmt_insert = $this->db->prepare("INSERT INTO fragrance_category "
+                 . "(fragrance_id, category_id) VALUES (:frag_id, :cat_id)");
+         $cats = $fragrance->get_categories();
+         if($cats){
+             foreach($cats as $cat){
+                 $stmt_insert->execute(array(":frag_id" => $fragrance->get_id(), 
+                                       ":cat_id" => array_search($cat, $this->categories_by_id)));
+             }
+         }
     }
 
     public function save_fragrance(Fragrance $fragrance): void {
@@ -368,10 +394,8 @@ class GeneralDAO implements DAOInterface {
         $matches = [];
         try {
             $stmt = $this->db->prepare("SELECT category_id FROM fragrance_category WHERE fragrance_id = :id");
-            $stmt->execute(array("id" => $frag_id));
-            
-            $rows = $stmt->fetch(PDO::FETCH_ASSOC);
-            var_dump($rows);
+            $stmt->execute(array(":id" => $frag_id));
+            $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
             if ($rows) {
                 $cat_ids = [];
                 foreach ($rows as $row) {

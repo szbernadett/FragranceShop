@@ -8,9 +8,10 @@
 interface DAOInterface {
     public function get_fragrance_by_id(int $frag_id);
     public function get_all_fragrances();
-    public function edit_fragrance(Fragrance $fragrance);
+    public function update_fragrance(Fragrance $fragrance);
     public function delete_fragrance(int $frag_id);
     public function save_fragrance(Fragrance $fragrance);
+    public function update_fragrance_category(Fragrance $fragrance);
     
     public function get_member(string $username);
     public function get_all_brands();

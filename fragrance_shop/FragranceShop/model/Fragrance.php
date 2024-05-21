@@ -99,7 +99,7 @@ class Fragrance {
         $this->description = $description;
     }
 
-    public function set_img_scr(string $img_src): void {
+    public function set_img_src(string $img_src): void {
         $this->img_src = $img_src;
     }
 
