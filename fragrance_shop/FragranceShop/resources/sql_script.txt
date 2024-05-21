@@ -300,49 +300,49 @@ BEGIN
 
     START TRANSACTION;
     
-    INSERT INTO brand_price_size (brand_id, price_size_id) SELECT
-    (SELECT id FROM brand WHERE name='Montale'), 
-    (SELECT id FROM price_size WHERE price='£115' AND 
+     INSERT INTO brand_price_size (brand_id, price_size_id) SELECT
+    (SELECT id FROM brand WHERE brand_name='Montale'), 
+    (SELECT id FROM price_size WHERE price_value='£115' AND 
     size_id=(SELECT id FROM size WHERE size_value='100 ml'));
 
     INSERT INTO brand_price_size (brand_id, price_size_id) SELECT
-    (SELECT id FROM brand WHERE name='Montale'), 
-    (SELECT id FROM price_size WHERE price='£70' AND 
+    (SELECT id FROM brand WHERE brand_name='Montale'), 
+    (SELECT id FROM price_size WHERE price_value='£70' AND 
     size_id=(SELECT id FROM size WHERE size_value='50 ml'));
 
     INSERT INTO brand_price_size (brand_id, price_size_id) SELECT
-    (SELECT id FROM brand WHERE name='Mancera'), 
-    (SELECT id FROM price_size WHERE price='£120' AND 
+    (SELECT id FROM brand WHERE brand_name='Mancera'), 
+    (SELECT id FROM price_size WHERE price_value='£120' AND 
     size_id=(SELECT id FROM size WHERE size_value='120 ml'));
 
     INSERT INTO brand_price_size (brand_id, price_size_id) SELECT
-    (SELECT id FROM brand WHERE name='Mancera'), 
-    (SELECT id FROM price_size WHERE price='£80' AND 
+    (SELECT id FROM brand WHERE brand_name='Mancera'), 
+    (SELECT id FROM price_size WHERE price_value='£80' AND 
     size_id=(SELECT id FROM size WHERE size_value='60 ml'));
 
     INSERT INTO brand_price_size (brand_id, price_size_id) SELECT
-    (SELECT id FROM brand WHERE name='Casamorati'), 
-    (SELECT id FROM price_size WHERE price='£95' AND 
+    (SELECT id FROM brand WHERE brand_name='Casamorati'), 
+    (SELECT id FROM price_size WHERE price_value='£95' AND 
     size_id=(SELECT id FROM size WHERE size_value='30 ml'));
    
     INSERT INTO brand_price_size (brand_id, price_size_id) SELECT
-    (SELECT id FROM brand WHERE name='Casamorati'), 
-    (SELECT id FROM price_size WHERE price='£140' AND 
+    (SELECT id FROM brand WHERE brand_name='Casamorati'), 
+    (SELECT id FROM price_size WHERE price_value='£140' AND 
     size_id=(SELECT id FROM size WHERE size_value='50 ml'));
 
     INSERT INTO brand_price_size (brand_id, price_size_id) SELECT
-    (SELECT id FROM brand WHERE name='Casamorati'), 
-    (SELECT id FROM price_size WHERE price='£230' AND 
+    (SELECT id FROM brand WHERE brand_name='Casamorati'), 
+    (SELECT id FROM price_size WHERE price_value='£230' AND 
     size_id=(SELECT id FROM size WHERE size_value='100 ml'));
 
     INSERT INTO brand_price_size (brand_id, price_size_id) SELECT
-    (SELECT id FROM brand WHERE name='Xerjoff'), 
-    (SELECT id FROM price_size WHERE price='£150' AND 
+    (SELECT id FROM brand WHERE brand_name='Xerjoff'), 
+    (SELECT id FROM price_size WHERE price_value='£150' AND 
     size_id=(SELECT id FROM size WHERE size_value='50 ml'));
 
     INSERT INTO brand_price_size (brand_id, price_size_id) SELECT
-    (SELECT id FROM brand WHERE name='Xerjoff'), 
-    (SELECT id FROM price_size WHERE price='£210' AND 
+    (SELECT id FROM brand WHERE brand_name='Xerjoff'), 
+    (SELECT id FROM price_size WHERE price_value='£210' AND 
     size_id=(SELECT id FROM size WHERE size_value='100 ml'));
 
     COMMIT;
