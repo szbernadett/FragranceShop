@@ -15,7 +15,7 @@ if (isset($_POST["send"])) {
     </head>
     <body>
         <?php include "header.php"; ?>
-        <main style="margin: 20px 40px">
+        <main style="margin: 20px 40px" id="main"  tabindex ="-1">
             <?php
             if (isset($_SESSION["success"])) {
                 echo "<p style='color: green'>" . $_SESSION["success"] . "</p>";

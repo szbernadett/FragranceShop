@@ -13,7 +13,7 @@ $fragrances = $dao->get_fragrances();
     </head>
     <body>
         <?php include "header.php"; ?>
-        <main style="margin: 20px 40px">
+        <main style="margin: 20px 40px" id="main"  tabindex ="-1">
 
             <h2>Products</h2>
             <?php
@@ -23,7 +23,7 @@ $fragrances = $dao->get_fragrances();
                 echo"<table class='pure-u-1-2'>";
                 echo"<tr>";
                 echo"<td style='text-align: right; width: 50%'><img src ='" . $fragrance->get_img_src() . "' height='200' alt=$alt></td>";
-                echo "<td style='text-align: left; width: 50%'>" . htmlentities($fragrance->get_name()) . "<br>"
+                echo "<td style='text-align: left; width: 50%'>" . $alt . "<br>"
                 . $fragrance->get_brand()->get_brand_name() . "<br>"
                 . $fragrance->get_gender()->value . "</td>";
                 echo"</tr>";

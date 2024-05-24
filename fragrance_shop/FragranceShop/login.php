@@ -41,7 +41,7 @@ if (!isset($_SESSION["member"])) {
     </head>
     <body>
         <?php include "header.php"; ?>
-        <main style="margin: 20px 40px">
+        <main style="margin: 20px 40px" id="main"  tabindex ="-1">
         <?php
         if (isset($_SESSION["error"])) {
             echo "<p>" . $_SESSION["error"] . "</p>";

@@ -1,8 +1,7 @@
-<?php
-require_once "model\pdo.php";
-require_once "model\dao.php";
-
+<?php 
+session_start();
 ?>
+
 
 <html>
     <head>
@@ -12,7 +11,7 @@ require_once "model\dao.php";
     </head>
     <body>
         <?php include "header.php"; ?>
-        <main style="margin: 20px 40px">
+        <main style="margin: 20px 40px" id="main"  tabindex ="-1">
         <h2>About Us</h2>
         <p style="line-height: 1.5">
             Sed ut perspiciatis unde omnis iste natus error sit voluptatem 

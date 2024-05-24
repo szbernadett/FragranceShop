@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'model\dao.php';
+require_once 'model/dao.php';
 $brands_by_name = $dao->get_brands_by_name();
 $genders_by_value = $dao->get_genders_by_value();
 $categories_by_value = $dao->get_categories_by_value();
@@ -147,7 +147,7 @@ if (isset($_POST["save"])) {
         <meta name="viewport" content="width=device-width, initial-scale=1"
     </head>
     <body>
-        <main style="margin: 20px 40px">
+        <main style="margin: 20px 40px" id="main"  tabindex ="-1">
             <h2>Add Fragrance</h2>
             <?php
             if (isset($_SESSION["error"])) {

@@ -163,7 +163,7 @@ if (isset($_POST["save"])) {
         <meta name="viewport" content="width=device-width, initial-scale=1"
     </head>
     <body>
-        <main style="margin: 20px 40px">
+        <main style="margin: 20px 40px" id="main"  tabindex ="-1">
             <h2>Edit Fragrance</h2>
             <?php
             if (isset($_SESSION["error"])) {

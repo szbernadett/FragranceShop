@@ -1,6 +1,5 @@
 <?php
-
-// require_once "pdo.php";
+require_once "pdo.php";
 require_once "GeneralDAO.php";
 
 try{

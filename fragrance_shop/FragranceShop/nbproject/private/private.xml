@@ -3,8 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp64/www/fragrance_shop/FragranceShop/member_page.php</file>
+            <file>file:/C:/wamp64/www/fragrance_shop/FragranceShop/contact.php</file>
+            <file>file:/C:/wamp64/www/fragrance_shop/FragranceShop/about.php</file>
+            <file>file:/C:/wamp64/www/fragrance_shop/FragranceShop/login.php</file>
             <file>file:/C:/wamp64/www/fragrance_shop/FragranceShop/add.php</file>
+            <file>file:/C:/wamp64/www/fragrance_shop/FragranceShop/model/GeneralDAO.php</file>
+            <file>file:/C:/wamp64/www/fragrance_shop/FragranceShop/header.php</file>
+            <file>file:/C:/wamp64/www/fragrance_shop/FragranceShop/index.php</file>
+            <file>file:/C:/wamp64/www/fragrance_shop/FragranceShop/edit.php</file>
+            <file>file:/C:/wamp64/www/fragrance_shop/FragranceShop/products.php</file>
+            <file>file:/C:/wamp64/www/fragrance_shop/FragranceShop/footer.php</file>
+            <file>file:/C:/wamp64/www/fragrance_shop/FragranceShop/model/dao.php</file>
+            <file>file:/C:/wamp64/www/fragrance_shop/FragranceShop/resources/sql_script.txt</file>
+            <file>file:/C:/wamp64/www/fragrance_shop/FragranceShop/logout.php</file>
+            <file>file:/C:/wamp64/www/fragrance_shop/FragranceShop/member_page.php</file>
+            <file>file:/C:/wamp64/www/fragrance_shop/FragranceShop/delete.php</file>
         </group>
     </open-files>
 </project-private>

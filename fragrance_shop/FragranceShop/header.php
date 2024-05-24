@@ -13,6 +13,8 @@
 <header style="margin-bottom: 40px; border-bottom: 1px solid black;"> 
     <h1 style="display: inline-block; margin:0; margin-left: 20px;">Fragrance Shop</h1>
     <img src="resources/perfume_logo.jpg" alt="logo: a perfume bottle" height="48px" style="display: inline-block; margin-top: 10px;">
+    <a href="#main" style="position: absolute; left: 0; top: -40px; z-index: 100;" 
+       onfocus="this.style.top= '0';" onblur="this.style.top= '-40px';">Skip to content</a>
     <nav>
         <ul style="list-style:none; text-align: right;">
             <li style="display: inline-block; margin:0 20px 20px 20px;"><a href="index.php">Home</a></li>

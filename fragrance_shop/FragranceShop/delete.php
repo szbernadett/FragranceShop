@@ -33,7 +33,7 @@ $fragrance_name = $fragrances[$frag_id]->get_name();
         <meta name="viewport" content="width=device-width, initial-scale=1"
     </head>
     <body>
-        <main style="margin: 20px 40px">
+        <main style="margin: 20px 40px" id="main"  tabindex ="-1">
             <h2>Delete Fragrance</h2>
             <p>Do you wish to delete <?= $fragrance_name ?> ?</p>
 

@@ -15,7 +15,7 @@ $fragrances = $dao->get_fragrances();
     </head>
     <body>
         <?php include "header.php"; ?>
-        <main style="margin: 20px 40px">
+        <main style="margin: 20px 40px" id="main"  tabindex ="-1">
         <?php
         if (isset($_SESSION["success"])) {
             echo "<p style='color: green'>" . $_SESSION["success"] . "</p>";
@@ -37,12 +37,12 @@ $fragrances = $dao->get_fragrances();
             echo"<table style='width: 100%; max-width: 100%;'>";
             echo"<tr>";
             echo"<td>Image</td>";
-            $alt = htmlentities($fragrance->get_name());
+            $alt = htmlentities($frag->get_name());
             echo"<td><img src='" . $frag->get_img_src() . "' height='100' alt=$alt></td>";
             echo"</tr>";
             echo"<tr>";
             echo"<td>Name</td>";
-            echo"<td>" . htmlentities($frag->get_name()) . "</td>";
+            echo"<td>" . $alt . "</td>";
             echo"</tr>";
             echo"<tr>";
             echo"<td>Brand</td>";

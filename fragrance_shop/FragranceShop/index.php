@@ -1,6 +1,5 @@
 <?php
-require_once "model\pdo.php";
-require_once "model\dao.php";
+session_start();
 ?>
 
 <html>
@@ -11,7 +10,7 @@ require_once "model\dao.php";
     </head>
     <body>
         <?php include "header.php"; ?>
-        <main style="margin: 20px 40px">
+        <main style="margin: 20px 40px" id="main"  tabindex ="-1">
             <h2>Home</h2>
             <p><em> Please log in via the link above to add, edit and delete fragrances. </em></p>
             <p style="line-height: 1.5"> 
